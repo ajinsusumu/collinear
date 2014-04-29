@@ -8,7 +8,8 @@ public class Fast {
             //            filename = "collinear/rs1423.txt";
             //        filename = "collinear/input10.txt";
 //            filename = "collinear/input20.txt";
-            filename = "collinear/input50.txt";
+//            filename = "collinear/input50.txt";
+        	filename = "collinear/mystery10089.txt";
             //            filename = "collinear/input8.txt";
             //                      filename = "collinear/input9.txt";
         } else {
@@ -19,7 +20,6 @@ public class Fast {
         // rescale coordinates and turn on animation mode
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
-        StdDraw.show(0);
         In in = new In(filename);
         int N = in.readInt();
         Point[] p = new Point[N];
@@ -30,6 +30,7 @@ public class Fast {
             p[i].draw();
 
         }
+        StdDraw.show(0);
         double[] sl = new double[N];
         for (int i = 0; i < N - 3; i++) {
             Arrays.sort(p, i + 1, N, p[i].SLOPE_ORDER);
@@ -59,5 +60,6 @@ public class Fast {
         for (int l = 0; l < count; l++) out.printf("%s -> ", r[l]);
         out.printf("%s%n",r[count]);
         r[0].drawTo(r[count]);
+        StdDraw.show(0);
     }
 }
