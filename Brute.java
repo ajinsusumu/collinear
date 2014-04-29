@@ -2,8 +2,19 @@ import java.util.Arrays;
 
 public class Brute {
     public static void main(String[] args) {
-        //        String filename = args[0];
-        String filename = "collinear/input8.txt";
+        String filename;
+        if (args.length < 1) {
+        	filename = "collinear/rs1423.txt";
+//          String filename = "collinear/input8.txt";
+//          String filename = "collinear/input6.txt";
+        } else {
+        	filename = args[0];
+        }
+        Out out = new Out();
+        // rescale coordinates and turn on animation mode
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        StdDraw.show(0);
         In in = new In(filename);
         int N = in.readInt();
         Point[] p = new Point[N];
@@ -11,9 +22,9 @@ public class Brute {
             int x = in.readInt();
             int y = in.readInt();
             p[i] = new Point(x, y);
+            p[i].draw();
         }
         Arrays.sort(p);
-        Out out = new Out();
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 for (int k = j + 1; k < N; k++) {
@@ -27,13 +38,14 @@ public class Brute {
                                            p[k].toString(),
                                            p[l].toString()
                                            );
+                                p[i].drawTo(p[l]);
                             }
                         }
                     }
                 }
             }
         }
-
+        StdDraw.show(0);
     }
     static private boolean collinear(Point a, Point b, Point c, Point d) {
         if ((a.slopeTo(b) == a.slopeTo(c)) && (a.slopeTo(b) == a.slopeTo(d))) {
