@@ -2,8 +2,20 @@ import java.util.Arrays;
 
 public class Fast {
     public static void main(String[] args) {
-        //        String filename = args[0];
-        String filename = "collinear/input8.txt";
+        String filename;
+        if (args.length < 1) {
+        	filename = "collinear/rs1423.txt";
+//          String filename = "collinear/input8.txt";
+//          String filename = "collinear/input6.txt";
+        } else {
+        	filename = args[0];
+        }
+        Out out = new Out();
+
+        // rescale coordinates and turn on animation mode
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        StdDraw.show(0);
         In in = new In(filename);
         int N = in.readInt();
         Point[] p = new Point[N];
@@ -11,14 +23,12 @@ public class Fast {
             int x = in.readInt();
             int y = in.readInt();
             p[i] = new Point(x, y);
+            p[i].draw();
 
         }
         //        Arrays.sort(p);
-        Out out = new Out();
         //        int j = 0;
         for (int i = 0; i < N - 3;) {
-            //            Point[] q = new Point[N - i];
-            //            for (int j = 0; j < N - i; j++) q[j] = p[j + i];
             Arrays.sort(p, i + 1, N, p[i].SLOPE_ORDER);
             int count = 1;
             int h = i + 1;
@@ -30,17 +40,20 @@ public class Fast {
                     count = 1;
                 }
             }
-            if (count > 2) { segment_out(i, h, N - i - count, count, p, out); h += count; }
+            if (count > 2) { segment_out(i, h, N - count, count, p, out); h += count; }
             i = h;
         }
+        StdDraw.show(0);
     }
     static private void segment_out(int o, int h, int g, int count, Point[] q, Out out) {
         Point[] r = new Point[count + 1];
         r[0] = q[o];
-        for (int l = 1; l < count + 1; l++) r[l] = q[l + g];
+        for (int l = 1; l < count + 1; l++) r[l] = q[l + g - 1];
         Arrays.sort(r);
         for (int l = 0; l < count; l++) out.printf("%s -> ", r[l]);
         out.printf("%s%n",r[count]);
+        r[0].drawTo(r[count]);
+        
 
         /* move _count_ Points starting from g to o+1*/
         for (int i = g + count - 1, j = h; i >= g && j < g; i--, j++) {
